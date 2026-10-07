@@ -16,5 +16,6 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/scheduling/**/*.test.ts", "src/scheduling/tsconfig.test.json"]
 }

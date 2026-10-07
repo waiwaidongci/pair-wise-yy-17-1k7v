@@ -1,12 +1,19 @@
 import { Badge, Button, Group, Paper, SimpleGrid, Text, Title } from '@mantine/core';
-import { CalendarClock, ExternalLink, Trash2 } from 'lucide-react';
+import { CalendarClock, ExternalLink, RefreshCw, Trash2 } from 'lucide-react';
 import { useCourseStore } from '../stores/courseStore';
+import { useScheduleStore, useScheduleVersion } from '../stores/scheduleStore';
 import { analyzeCourse } from '../utils/course';
 
 export function RoutesLibraryView() {
   const savedRoutes = useCourseStore((state) => state.savedRoutes);
   const loadCourse = useCourseStore((state) => state.loadCourse);
   const remove = useCourseStore((state) => state.deleteSavedRoute);
+  const syncDesignerRoute = useScheduleStore((state) => state.syncDesignerRoute);
+  useScheduleVersion();
+  const scheduleRoutes = useScheduleStore.getState().snapshot().routeCatalog;
+  const setNotice = useScheduleStore((state) => state.setNotice);
+
+  const syncedIds = new Set(scheduleRoutes.map((route) => route.course ? (route.course as { id: string }).id : ''));
 
   return (
     <main className="page-wrap">
@@ -51,6 +58,17 @@ export function RoutesLibraryView() {
                     onClick={() => loadCourse(route.course)}
                   >
                     载入设计器
+                  </Button>
+                  <Button
+                    variant={syncedIds.has(route.course.id) ? 'subtle' : 'filled'}
+                    color={syncedIds.has(route.course.id) ? 'teal' : 'indigo'}
+                    leftSection={<RefreshCw size={15} />}
+                    onClick={async () => {
+                      await syncDesignerRoute(route.course);
+                      setNotice(`「${route.name}」已同步到排场路线库`);
+                    }}
+                  >
+                    {syncedIds.has(route.course.id) ? '更新到排场表' : '同步到排场表'}
                   </Button>
                   <Button
                     variant="subtle"

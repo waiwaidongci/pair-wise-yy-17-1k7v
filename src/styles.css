@@ -132,6 +132,39 @@ button, input, textarea { font: inherit; }
 .saved-route-card { background: #fff; transition: .16s ease; }
 .saved-route-card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(15,23,42,.08); }
 
+/* ---- 排场表 ---- */
+.schedule-page { max-width: 1440px; margin: 0 auto; }
+.schedule-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 318px;
+  gap: 18px;
+  align-items: start;
+}
+.schedule-main { min-width: 0; }
+.schedule-side { position: sticky; top: 18px; }
+.board-paper { background: #fff; }
+.board-head { border-bottom: 1px solid #eef2f7; }
+.session-card { border-left-width: 4px; }
+.session-card.is-confirmed { border-left-color: #10b981; }
+.session-card.is-pending { border-left-color: #f59e0b; background: #fffdf5; }
+.composer-card { background: #fff; }
+.composer-card .mantine-InputWrapper-label { margin-bottom: 2px; }
+.draft-row { background: #fff; transition: .14s ease; }
+.draft-row:hover { border-color: #a5b4fc; }
+.drafts-empty { border-style: dashed; background: #fff; }
+.shortage-alert { border-radius: 10px; }
+.artifact-panel .mantine-tabs-tab { font-size: 11px; padding: 5px 10px; }
+.judge-mini-table { font-size: 10.5px; }
+.judge-mini-table th, .judge-mini-table td { padding: 3px 5px !important; white-space: nowrap; }
+.fault-panel .mantine-Switch-root { align-items: flex-start; }
+.fault-panel .mantine-Switch-body { margin-top: 1px; }
+.shortage-alert .mantine-Text-root, .shortage-alert b { color: inherit; }
+
+@media (max-width: 1080px) {
+  .schedule-layout { grid-template-columns: 1fr; }
+  .schedule-side { position: static; }
+}
+
 .mantine-Button-root { text-transform: none; font-weight: 700; }
 .mantine-InputWrapper-label { font-size: 11px; font-weight: 800; color: #475569; }
 .mantine-Tabs-tab { font-size: 12px; font-weight: 750; }

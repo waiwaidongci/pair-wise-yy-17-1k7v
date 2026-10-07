@@ -1,5 +1,5 @@
 import { ActionIcon, Badge, Group, Tabs, Text } from '@mantine/core';
-import { BookOpen, FilePenLine, RotateCcw } from 'lucide-react';
+import { BookOpen, CalendarRange, FilePenLine, RotateCcw } from 'lucide-react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useCourseStore } from './stores/courseStore';
 
@@ -7,6 +7,12 @@ export default function App() {
   const location = useLocation();
   const resetCourse = useCourseStore((state) => state.resetCourse);
   const obstacles = useCourseStore((state) => state.course.obstacles.length);
+
+  const tabValue = location.pathname.startsWith('/routes')
+    ? 'routes'
+    : location.pathname.startsWith('/schedule')
+      ? 'schedule'
+      : 'designer';
 
   return (
     <div className="app-shell">
@@ -18,17 +24,16 @@ export default function App() {
             <Text className="brand-subtitle">马术障碍路线设计器</Text>
           </div>
         </Group>
-        <Tabs
-          value={location.pathname.startsWith('/routes') ? 'routes' : 'designer'}
-          variant="pills"
-          className="main-nav"
-        >
+        <Tabs value={tabValue} variant="pills" className="main-nav">
           <Tabs.List>
             <Tabs.Tab value="designer" leftSection={<FilePenLine size={16} />}>
               <Link to="/designer">路线设计</Link>
             </Tabs.Tab>
             <Tabs.Tab value="routes" leftSection={<BookOpen size={16} />}>
               <Link to="/routes">路线库</Link>
+            </Tabs.Tab>
+            <Tabs.Tab value="schedule" leftSection={<CalendarRange size={16} />}>
+              <Link to="/schedule">排场表</Link>
             </Tabs.Tab>
           </Tabs.List>
         </Tabs>

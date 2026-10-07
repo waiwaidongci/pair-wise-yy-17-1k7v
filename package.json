@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "bash scripts/vite-with-fixed-node.sh dev",
     "build": "tsc -b && bash scripts/vite-with-fixed-node.sh build",
-    "preview": "bash scripts/vite-with-fixed-node.sh preview"
+    "preview": "bash scripts/vite-with-fixed-node.sh preview",
+    "test:scheduling": "tsc -p src/scheduling/tsconfig.test.json && node --test \"node_modules/.cache/schedule-tests/scheduling/engine.test.js\" \"node_modules/.cache/schedule-tests/scheduling/ssr.smoke.js\""
   },
   "dependencies": {
     "@mantine/core": "^8.3.8",
@@ -18,6 +19,7 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "@types/node": "^20.19.43",
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.4",
