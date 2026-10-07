@@ -3,6 +3,7 @@ import type { Course, Obstacle, ObstaclePreset, SavedRoute } from '../types/cour
 import {
   analyzeCourse,
   clamp,
+  createId,
   createInitialCourse,
   createObstacle,
   generateRouteOptions,
@@ -32,6 +33,56 @@ export function readSavedRoutes(): SavedRoute[] {
   } catch {
     return [];
   }
+}
+
+// 首次使用时内置几条样本路线，供排场表直接选路
+function seedSavedRoutes(): SavedRoute[] {
+  const base = createInitialCourse();
+  const variants: Array<{ name: string; mutate: (course: Course) => Course }> = [
+    { name: '周五进阶训练路线', mutate: (course) => course },
+    {
+      name: '周六入门热身路线',
+      mutate: (course) => ({
+        ...course,
+        obstacles: course.obstacles.map((obstacle) => ({ ...obstacle, kind: 'vertical' as const })),
+      }),
+    },
+    {
+      name: '周日挑战竞技路线',
+      mutate: (course) => ({
+        ...course,
+        obstacles: course.obstacles.map((obstacle, index) => {
+          if (index === 1) return { ...obstacle, kind: 'oxer' as const };
+          if (index === 2) return { ...obstacle, kind: 'triple' as const };
+          if (index === 4) return { ...obstacle, kind: 'combination' as const };
+          return obstacle;
+        }),
+      }),
+    },
+  ];
+
+  const seeded: SavedRoute[] = variants.map(({ name, mutate }, index) => {
+    const course = mutate({
+      ...base,
+      id: createId('course'),
+      name,
+      obstacles: base.obstacles.map((obstacle) => ({ ...obstacle, id: createId('obs') })),
+      sequence: [],
+      updatedAt: Date.now() - index * 1000,
+    });
+    course.sequence = course.obstacles.map((item) => item.id);
+    const analysis = analyzeCourse(course);
+    return {
+      id: course.id,
+      name,
+      savedAt: Date.now() - index * 3600_000,
+      course,
+      score: analysis.score,
+    };
+  });
+
+  localStorage.setItem(SAVED_KEY, JSON.stringify(seeded));
+  return seeded;
 }
 
 function persist(course: Course, savedRoutes?: SavedRoute[]) {
@@ -90,7 +141,7 @@ export const useCourseStore = create<CourseState>((set, get) => {
     snapEnabled: true,
     gridVisible: true,
     routeOptions: [],
-    savedRoutes: readSavedRoutes(),
+    savedRoutes: readSavedRoutes().length ? readSavedRoutes() : seedSavedRoutes(),
     history: [],
     future: [],
     select: (id) => set({ selectedId: id }),

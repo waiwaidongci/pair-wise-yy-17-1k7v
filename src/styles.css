@@ -126,6 +126,55 @@ button, input, textarea { font: inherit; }
 .route-option-card { background: #f8fafc; }
 .share-url { word-break: break-all; font-family: ui-monospace, monospace; }
 
+/* 排场表时间轴 */
+.schedule-paper { background: #fff; }
+.schedule-timeline { display: flex; gap: 0; }
+.schedule-gutter { flex: 0 0 56px; position: relative; }
+.schedule-hour {
+  height: 64px;
+  font-size: 10px;
+  color: #94a3b8;
+  font-weight: 700;
+  text-align: right;
+  padding-right: 8px;
+  transform: translateY(-7px);
+}
+.schedule-track { flex: 1; position: relative; min-height: 768px; border-left: 1px solid #e2e8f0; }
+.schedule-hour-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed #e2e8f0;
+  height: 0;
+}
+.schedule-empty { position: absolute; top: 40px; left: 16px; }
+.session-block {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  border-radius: 8px;
+  padding: 6px 8px;
+  text-align: left;
+  border: 1px solid;
+  cursor: pointer;
+  overflow: hidden;
+  transition: box-shadow .15s ease, transform .15s ease;
+  font: inherit;
+}
+.session-block:hover { box-shadow: 0 6px 16px rgba(15,23,42,.12); transform: translateY(-1px); }
+.session-draft { background: #f8fafc; border-color: #cbd5e1; color: #475569; }
+.session-pending { background: #fef2f2; border-color: #fca5a5; color: #991b1b; }
+.session-scheduled { background: #ecfdf5; border-color: #6ee7b7; color: #065f46; }
+.session-cancelled { background: #f1f5f9; border-color: #cbd5e1; color: #94a3b8; opacity: .7; }
+.session-duplicate {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  opacity: 0;
+  transition: opacity .15s ease;
+}
+.session-block:hover .session-duplicate { opacity: 1; }
+
 .page-wrap { height: 100%; overflow: auto; padding: 34px; background: #f1f5f9; }
 .page-wrap h1 { font-size: 28px; }
 .library-empty { text-align: center; background: #fff; border-style: dashed; }
