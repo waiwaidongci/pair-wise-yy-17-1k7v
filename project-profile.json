@@ -1,0 +1,12 @@
+{
+  "projectId": "pair-wise-yy-17",
+  "projectName": "StridePlan 马术障碍路线设计器",
+  "category": "空间规划",
+  "businessDomain": "体育训练",
+  "projectForm": "完整项目",
+  "codeScope": "frontend",
+  "languages": "React, TypeScript, Vite, Mantine, Zustand, React Router, Canvas",
+  "summary": "按真实场地尺寸摆放马术障碍，计算步数并检查距离、转角和交叉风险，支持自动路线、保存分享、打印与裁判表导出。",
+  "containerized": false
+}
+
